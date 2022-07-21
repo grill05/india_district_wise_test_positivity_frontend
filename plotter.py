@@ -37,14 +37,14 @@ updatemenus = [
 if __name__ == "__main__":
     # ~ # download the repo to access *csv files
     
-    # ~ os.system(
-        # ~ "git clone --depth 1 https://github.com/grill05/india_district_wise_test_positivity && mv india_district_wise_test_positivity/*csv . && rm -rf misc_bed_availability_scraper"
-    # ~ )
-    # ~ os.system(
-        # ~ "git clone --depth 1 https://github.com/grill05/covid19india_data_parser && mv covid19india_data_parser/*.py . && rm -rf covid19india_data_parser"
-    # ~ )
-    # ~ os.system("curl -# -O https://data.covid19bharat.org/csv/latest/states.csv")
-    # ~ os.system("curl -# -O https://data.covid19bharat.org/csv/latest/districts.csv")
+    os.system(
+        "git clone --depth 1 https://github.com/grill05/india_district_wise_test_positivity && mv india_district_wise_test_positivity/*csv . && rm -rf misc_bed_availability_scraper"
+    )
+    os.system(
+        "git clone --depth 1 https://github.com/grill05/covid19india_data_parser && mv covid19india_data_parser/*.py . && rm -rf covid19india_data_parser"
+    )
+    os.system("curl -# -O https://data.covid19bharat.org/csv/latest/states.csv")
+    os.system("curl -# -O https://data.covid19bharat.org/csv/latest/districts.csv")
 
     # logic in dataparser3.py makes it easier to access "cases" timeseries of cities/states
     import dataparser3 as dp
