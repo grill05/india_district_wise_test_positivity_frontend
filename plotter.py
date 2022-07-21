@@ -67,6 +67,7 @@ if __name__ == "__main__":
         ps=p[p.state==state_code_to_name[state].upper()]
         districts=list(set(list(ps.district)));districts.sort()
         
+        a = open('states/'+state+'.html', "w")        
         fig = make_subplots(specs=[[{"secondary_y": False}]])
         
         #add TPR of entire state, and make it visible
@@ -109,8 +110,33 @@ if __name__ == "__main__":
         fig.update_layout(title="Weekly District TPR in "+state_name)
        
         #save
-        a = open('states/'+state+'.html', "w")
         a.write(fig.to_html(full_html=False, include_plotlyjs="cdn"))
+        
+        #create fig for fraction of RT-PCR tests
+        fig = make_subplots(specs=[[{"secondary_y": False}]])
+        
+        for district in districts:    
+             # ~ print('Processing district: %s' %(district))
+            if district in ["PRATAPGARH","BILASPUR"]: continue
+                        
+            psd=ps[ps.district==district]
+            psd['middle_date']=pd.to_datetime(psd.week_start_date)+((pd.to_datetime(psd.week_end_date)-pd.to_datetime(psd.week_start_date))/2)
+            
+            if district==capital:
+                fig.add_trace(go.Scatter(x=psd["middle_date"], y=psd.fraction_of_RTPCR_tests, name=district, mode="lines+markers",line_shape="spline"),secondary_y=False)
+            else:
+                fig.add_trace(go.Scatter(x=psd["middle_date"], y=psd.fraction_of_RTPCR_tests, name=district, mode="lines+markers",line_shape="spline",visible = "legendonly"),secondary_y=False)
+        
+        fig.update_xaxes(title_text="Date")        
+        fig.update_yaxes(title_text="Fraction of RT-PCR tests", secondary_y=False)
+        # ~ fig.update_yaxes(title_text="Bed Occupancy", secondary_y=True)
+        fig.update_layout(title="Weekly district-wise fraction of RT-PCR tests")
+       
+        #save
+        a.write(fig.to_html(full_html=False, include_plotlyjs="cdn"))
+        
+        
+        
         a.close()
     # ~ fig.update_layout(updatemenus=updatemenus)
     
