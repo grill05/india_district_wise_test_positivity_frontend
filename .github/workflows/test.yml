@@ -1,0 +1,51 @@
+name: CI build
+
+on:
+  schedule:
+  - cron:  '10 7 * * *'
+#~ on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - 'data.chennai.csv'
+  #~ pull_request:
+  
+
+jobs:
+  build:
+
+    env:
+      PY_COLORS: "1"
+    runs-on: ubuntu-18.04
+    #~ strategy:
+      #~ fail-fast: false
+      #~ max-parallel: 6
+      #~ matrix:
+        #~ python-version: [3.6]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.6'
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    #~ - name: Setup upterm session
+      #~ uses: lhotari/action-upterm@v1    
+    - name: Plot occupancy data
+      run: |
+        python plotter.py
+    - name: Commit modified csv files
+      if: always()
+      run: |
+        git config --global user.name 'Actions Bot'
+        git config --global user.email 'actions-bot@users.noreply.github.com'
+        export TZ=Asia/Calcutta && git commit -am "Automated report: `date +'%Y-%m-%d %H:%M:%S'`"
+        git push
+    - uses: gautamkrishnar/keepalive-workflow@master # using the workflow with default settings
+

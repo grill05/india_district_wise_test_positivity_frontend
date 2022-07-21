@@ -1,0 +1,7 @@
+pandas
+plotly
+lazy_import
+tqdm
+requests
+matplotlib
+colorama
