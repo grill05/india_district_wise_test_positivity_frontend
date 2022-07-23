@@ -20,15 +20,7 @@ updatemenus = [
                 ),
                 dict(
                     args=[{"yaxis.type": "log"}], label="Log Scale", method="relayout"
-                ),
-                dict(
-                    args=[{"yaxis2.type": "linear"}],
-                    label="Linear Scale2",
-                    method="relayout",
-                ),
-                dict(
-                    args=[{"yaxis2.type": "log"}], label="Log Scale2", method="relayout"
-                ),
+                )
             ]
         ),
     ),
@@ -108,6 +100,7 @@ if __name__ == "__main__":
         fig.update_yaxes(title_text="Weekly TPR", secondary_y=False)
         # ~ fig.update_yaxes(title_text="Bed Occupancy", secondary_y=True)
         fig.update_layout(title="Weekly District TPR in "+state_name)
+        fig.update_layout(updatemenus=updatemenus)
        
         #save
         a.write(fig.to_html(full_html=False, include_plotlyjs="cdn"))
@@ -131,6 +124,7 @@ if __name__ == "__main__":
         fig.update_yaxes(title_text="Fraction of RT-PCR tests", secondary_y=False)
         # ~ fig.update_yaxes(title_text="Bed Occupancy", secondary_y=True)
         fig.update_layout(title="Weekly district-wise fraction of RT-PCR tests")
+        
        
         #save
         a.write(fig.to_html(full_html=False, include_plotlyjs="cdn"))
@@ -138,7 +132,7 @@ if __name__ == "__main__":
         
         
         a.close()
-    # ~ fig.update_layout(updatemenus=updatemenus)
+        
     
     
  
